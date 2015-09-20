@@ -34,13 +34,21 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+
+    $menuItems = [];
+    if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->is_admin) {
+        $menuItems = [
+            ['label' => 'Users', 'url' => ['user/index']],
+            ['label' => 'User Profiles', 'url' => ['user-profile/index']],
+            ['label' => 'Students', 'url' => ['student/index']],
+            ['label' => 'Payment', 'url' => ['payment/index']],
+            ['label' => 'Currency', 'url' => ['currency/index']],
+        ];
+    }
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = [
+        $menuItems[] =[
             'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
