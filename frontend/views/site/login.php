@@ -10,30 +10,73 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username') ?>
-
+  <div id="login-page">
+    <div class="container">
+        <?php $form = ActiveForm::begin(['id' => 'login-form', 'options'=>['class' => 'form-login']]); ?>
+            <h2 class="form-login-heading">sign in now</h2>
+            <?php if (\Yii::$app->session->getFlash('error') !== null) : ?>
+            <div class="alert alert-danger">
+                <?= \Yii::$app->session->getFlash('error') ?>
+            </div>
+            <?php endif ?>
+            <?php if (\Yii::$app->session->getFlash('success') !== null) : ?>
+            <div class="alert alert-success">
+                <?= \Yii::$app->session->getFlash('success') ?>
+            </div>
+            <?php endif ?>
+            <div class="login-wrap">
+                <?= $form->field($model, 'username')->textInput() ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
+                <label class="checkbox">
+                    <span class="pull-right">
+                        <?= Html::a(Yii::t('front','Forgot Password?'), '#myModal', ['data-toggle'=>'modal']) ?>
+                        <!-- <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a> -->
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                    </span>
+                </label>
+                <?= Html::submitButton('<i class="fa fa-lock"></i> Login', ['class' => 'btn btn-theme btn-block', 'name' => 'login-button']) ?>
+                <hr>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
+                <div class="login-social-link centered">
+                <p>or you can sign in via your social network</p>
+                    <button class="btn btn-facebook" type="submit"><i class="fa fa-facebook"></i> Facebook</button>
+                    <button class="btn btn-twitter" type="submit"><i class="fa fa-twitter"></i> Twitter</button>
                 </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <div class="registration">
+                    Don't have an account yet?<br/>
+                    <a class="" href="#">
+                        Create an account
+                    </a>
                 </div>
+            </div>
+        <?php ActiveForm::end(); ?>
 
-            <?php ActiveForm::end(); ?>
-        </div>
+      <!-- Modal -->
+      <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form',
+                                                'action'=>['site/request-password-reset']]); ?>
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title"><?= Yii::t('front', 'Forgot Password?') ?></h4>
+                  </div>
+                  <div class="modal-body">
+                      <p>Enter your e-mail address below to reset your password.</p>
+                      <?= $form->field($modelPasswordReset, 'email', ['options'=>[
+                                                            'class'=>'placeholder-no-fix',
+                                                            'autocomplete'=>false,
+                                                        ]
+                                                        ]) ?>
+                  </div>
+                  <div class="modal-footer">
+                      <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                      <?= Html::submitButton('Submit', ['class' => 'btn btn-theme']) ?>
+                  </div>
+              </div>
+              <?php ActiveForm::end(); ?>
+          </div>
+      </div>
+      <!-- modal -->
     </div>
-</div>
+  </div>

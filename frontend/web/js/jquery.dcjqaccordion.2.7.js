@@ -80,7 +80,6 @@
 			} else {
 			
 				$('li a',obj).click(function(e){
-
 					$activeLi = $(this).parent('li');
 					$parentsLi = $activeLi.parents('li');
 					$parentsUl = $activeLi.parents('ul');

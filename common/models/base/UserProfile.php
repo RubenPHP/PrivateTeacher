@@ -12,10 +12,12 @@ use Yii;
  * @property string $name
  * @property string $lastname
  * @property string $hourly_rate
+ * @property integer $language_id
  * @property integer $currency_id
  * @property integer $created_at
- * @property integer $updated_ad
+ * @property integer $updated_at
  *
+ * @property \common\models\Language $language
  * @property \common\models\User $id0
  * @property \common\models\Currency $currency
  * @property \common\models\User $user
@@ -36,8 +38,8 @@ class UserProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'lastname', 'currency_id', 'created_at', 'updated_ad'], 'required'],
-            [['user_id', 'currency_id', 'created_at', 'updated_ad'], 'integer'],
+            [['user_id', 'name', 'lastname', 'language_id', 'currency_id'], 'required'],
+            [['user_id', 'language_id', 'currency_id', 'created_at', 'updated_at'], 'integer'],
             [['hourly_rate'], 'number'],
             [['name', 'lastname'], 'string', 'max' => 255],
             [['user_id'], 'unique']
@@ -50,23 +52,24 @@ class UserProfile extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('user', 'ID'),
-            'user_id' => Yii::t('user', 'User ID'),
-            'name' => Yii::t('user', 'Name'),
-            'lastname' => Yii::t('user', 'Lastname'),
-            'hourly_rate' => Yii::t('user', 'Hourly Rate'),
-            'currency_id' => Yii::t('user', 'Currency ID'),
-            'created_at' => Yii::t('user', 'Created At'),
-            'updated_ad' => Yii::t('user', 'Updated Ad'),
+            'id' => Yii::t('model', 'ID'),
+            'user_id' => Yii::t('model', 'User ID'),
+            'name' => Yii::t('model', 'Name'),
+            'lastname' => Yii::t('model', 'Lastname'),
+            'hourly_rate' => Yii::t('model', 'Hourly Rate'),
+            'language_id' => Yii::t('model', 'Language ID'),
+            'currency_id' => Yii::t('model', 'Currency ID'),
+            'created_at' => Yii::t('model', 'Created At'),
+            'updated_at' => Yii::t('model', 'Updated Ad'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getLanguage()
     {
-        return $this->hasOne(\common\models\User::className(), ['id' => 'id']);
+        return $this->hasOne(\common\models\Language::className(), ['id' => 'language_id']);
     }
 
     /**

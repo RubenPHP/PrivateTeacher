@@ -20,11 +20,15 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/style.css',
         'css/style-responsive.css',
+        'css/custom.css',
+        'js/gritter/css/jquery.gritter.css',
+        'font-awesome/css/font-awesome.css',
     ];
     public $js = [
         'js/jquery.dcjqaccordion.2.7.js',
         'js/jquery.scrollTo.min.js',
         'js/jquery.nicescroll.js',
+        'js/gritter/js/jquery.gritter.js',
         'js/common-scripts.js',
     ];
     public $depends = [

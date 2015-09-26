@@ -10,8 +10,9 @@ return [
             '*' => [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'basePath' => '@common/messages',
-                'sourceLanguage' => 'en_US',
+                'sourceLanguage' => 'en-US',
                 'fileMap' => [
+                    'frontLayout' => 'front-layout.php',
                     'student' => 'student.php',
                     'user' => 'user.php',
                 ],

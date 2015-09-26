@@ -72,6 +72,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'index';
         return $this->render('index');
     }
 
@@ -82,17 +83,17 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'login';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
+        $modelPasswordReset = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['/teacher']);
         } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            return $this->render('login', compact('model', 'modelPasswordReset'));
         }
     }
 
@@ -170,19 +171,25 @@ class SiteController extends Controller
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
+        $model->load(Yii::$app->request->post());
+        $model->validate();
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
+        else{
+            Yii::$app->session->setFlash('error', 'Sorry, no user with the email provided.');
+        }
 
-        return $this->render('requestPasswordResetToken', [
+        return $this->redirect(['site/login']);
+
+        /*return $this->render('requestPasswordResetToken', [
             'model' => $model,
-        ]);
+        ]);*/
     }
 
     /**
