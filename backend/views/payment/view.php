@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = 'View';
     'model' => $model,
     'attributes' => [
     			'id',
+			'user_id',
 			'student_id',
 			'amount',
 			'date',

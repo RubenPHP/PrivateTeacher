@@ -78,10 +78,25 @@ AppAsset::register($this);
                   </li>
 
                   <li class="sub-menu">
-                      <a href="#">
+                      <a <?= $this->params['activeMenu'](['create-payment', 'update-payment', 'list-payments']) ?>
+                      href="#">
                           <i class="fa fa-credit-card"></i>
                           <span><?= Yii::t('frontLayout', 'Payments') ?></span>
                       </a>
+                      <ul class="sub">
+                          <li <?= $this->params['activeMenu'](['create-payment']) ?>>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/create-payment']) ?>">
+                                <i class="fa fa-money"></i>
+                                <?= Yii::t('frontLayout', 'Add New Payment') ?>
+                            </a>
+                          </li>
+                          <li <?= $this->params['activeMenu'](['list-payments']) ?>>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/list-payments']) ?>">
+                                <i class="fa fa-list"></i>
+                                <?= Yii::t('frontLayout', 'List Payments') ?>
+                            </a>
+                          </li>
+                      </ul>
                   </li>
 
                   <li class="sub-menu">

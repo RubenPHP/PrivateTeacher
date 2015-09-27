@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="pull-right">
 
-                                                                                                            
+                                                                                                                                        
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
                 [
@@ -39,6 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'encodeLabels' => false,
                         'items'        => [
+    [
+        'label' => '<i class="glyphicon glyphicon-arrow-left"> User</i>',
+        'url' => [
+            'user/index',
+        ],
+    ],
     [
         'label' => '<i class="glyphicon glyphicon-arrow-left"> Student</i>',
         'url' => [
@@ -92,12 +98,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			'id',
+			'user_id',
 			'student_id',
 			'amount',
 			'date',
 			'created_by',
 			'updated_by',
-			'created_at',
+			/*'created_at'*/
 			/*'updated_at'*/
                 ],
             ]); ?>

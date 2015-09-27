@@ -19,13 +19,15 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'id') ?>
 
+		<?= $form->field($model, 'user_id') ?>
+
 		<?= $form->field($model, 'student_id') ?>
 
 		<?= $form->field($model, 'amount') ?>
 
 		<?= $form->field($model, 'date') ?>
 
-		<?= $form->field($model, 'created_by') ?>
+		<?php // echo $form->field($model, 'created_by') ?>
 
 		<?php // echo $form->field($model, 'updated_by') ?>
 

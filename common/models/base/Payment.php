@@ -8,6 +8,7 @@ use Yii;
  * This is the base-model class for table "payment".
  *
  * @property integer $id
+ * @property integer $user_id
  * @property integer $student_id
  * @property string $amount
  * @property integer $date
@@ -16,6 +17,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  *
+ * @property \common\models\User $user
  * @property \common\models\Student $student
  * @property \common\models\User $createdBy
  * @property \common\models\User $updatedBy
@@ -36,8 +38,8 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['student_id', 'amount', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'required'],
-            [['student_id', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'student_id', 'amount', 'date'], 'required'],
+            [['user_id', 'student_id', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount'], 'number']
         ];
     }
@@ -48,15 +50,24 @@ class Payment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('student', 'ID'),
-            'student_id' => Yii::t('student', 'Student ID'),
-            'amount' => Yii::t('student', 'Amount'),
-            'date' => Yii::t('student', 'Date'),
-            'created_by' => Yii::t('student', 'Created By'),
-            'updated_by' => Yii::t('student', 'Updated By'),
-            'created_at' => Yii::t('student', 'Created At'),
-            'updated_at' => Yii::t('student', 'Updated At'),
+            'id' => Yii::t('model', 'ID'),
+            'user_id' => Yii::t('model', 'User ID'),
+            'student_id' => Yii::t('model', 'Student ID'),
+            'amount' => Yii::t('model', 'Amount'),
+            'date' => Yii::t('model', 'Date'),
+            'created_by' => Yii::t('model', 'Created By'),
+            'updated_by' => Yii::t('model', 'Updated By'),
+            'created_at' => Yii::t('model', 'Created At'),
+            'updated_at' => Yii::t('model', 'Updated At'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id']);
     }
 
     /**

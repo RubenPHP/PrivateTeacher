@@ -13,6 +13,7 @@ use \common\models\base\UserProfile as BaseUserProfile;
  */
 class UserProfile extends BaseUserProfile
 {
+
     public function behaviors()
     {
         return [
@@ -27,12 +28,12 @@ class UserProfile extends BaseUserProfile
     }
 
     public function getAllLanguagesAsMappedArray(){
-        $models = Language::find()->asArray()->all();
+        $models = Language::find()->all();
         return ArrayHelper::map($models, 'id', 'name');
     }
 
     public function getAllCurrenciesAsMappedArray(){
-        $models = Currency::find()->asArray()->all();
+        $models = Currency::find()->all();
         return ArrayHelper::map($models, 'id', 'symbol');
     }
 

@@ -18,7 +18,7 @@ class PaymentSearch extends Payment
 public function rules()
 {
 return [
-[['id', 'student_id', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+[['id', 'user_id', 'student_id', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount'], 'number'],
 ];
 }
@@ -57,6 +57,7 @@ return $dataProvider;
 
 $query->andFilterWhere([
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'student_id' => $this->student_id,
             'amount' => $this->amount,
             'date' => $this->date,

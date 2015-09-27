@@ -34,6 +34,7 @@ use \dmstr\bootstrap\Tabs;
 
                 <p>
                     
+			<?= $form->field($model, 'user_id')->textInput() ?>
 			<?= $form->field($model, 'student_id')->textInput() ?>
 			<?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'date')->textInput() ?>

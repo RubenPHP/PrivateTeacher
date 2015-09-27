@@ -9,6 +9,7 @@ use yii\data\ActiveDataProvider;
 
 use common\models\UserProfile;
 use common\models\Student;
+use common\models\Payment;
 
 class DefaultController extends Controller
 {
@@ -23,7 +24,9 @@ class DefaultController extends Controller
                         'allow'     => true,
                         'actions'   => ['index', 'edit-profile',
                                         'create-student', 'update-student',
-                                        'list-students'
+                                        'list-students',
+                                        'create-payment', 'update-payment',
+                                        'list-payments'
                                        ],
                         'roles'     => ['@'],
                     ]
@@ -56,7 +59,7 @@ class DefaultController extends Controller
 
         if($student->load(Yii::$app->request->post())&&$student->save()){
             Yii::$app->session->setFlash('info', "$student created successfully");
-            return $this->redirect(['/teacher']);
+            return $this->redirect(['default/list-students']);
         }
         return $this->render('create-student', compact('student'));
     }
@@ -83,4 +86,39 @@ class DefaultController extends Controller
 
         return $this->render('list-students', compact('dataProvider'));
     }
+
+    public function actionCreatePayment(){
+        $payment = new Payment;
+        $payment->user_id = Yii::$app->user->id;
+
+        if($payment->load(Yii::$app->request->post())&&$payment->save()){
+            Yii::$app->session->setFlash('info', "Payment created successfully");
+            return $this->redirect(['default/list-payments']);
+        }
+        return $this->render('create-payment', compact('payment'));
+    }
+
+    public function actionUpdatePayment($paymentId){
+        $payment = Payment::findOne($paymentId);
+        if (!isset($payment)) {
+            throw new HttpException(404, 'The requested page does not exist.');
+        }
+        if($payment->load(Yii::$app->request->post())&&$payment->save()){
+            Yii::$app->session->setFlash('info', "Payment updated successfully");
+            return $this->redirect(['default/list-payments']);
+        }
+        return $this->render('update-payment', compact('payment'));
+    }
+
+    public function actionListPayments(){
+        $dataProvider = new ActiveDataProvider([
+            'query' => Yii::$app->user->identity->getPayments(),
+            'pagination' => [
+                'pageSize' => 20,
+            ]
+        ]);
+
+        return $this->render('list-payments', compact('dataProvider'));
+    }
 }
+    
