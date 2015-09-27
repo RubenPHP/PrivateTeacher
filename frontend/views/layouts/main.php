@@ -49,7 +49,6 @@ AppAsset::register($this);
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
-
                   <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
                   <h5 class="centered">
                     <?= Yii::$app->user->identity->userProfile ?><br>
@@ -57,19 +56,20 @@ AppAsset::register($this);
                   </h5>
 
                   <li class="mt sub-menu">
-                      <a href="javascript:;" >
+                      <a <?= $this->params['activeMenu'](['create-student', 'update-student', 'list-students']) ?>
+                       href="javascript:;" >
                           <i class="fa fa-graduation-cap"></i>
                           <span><?= Yii::t('frontLayout', 'Manage Students') ?></span>
                       </a>
                       <ul class="sub">
-                          <li>
-                            <a href="#">
+                          <li <?= $this->params['activeMenu'](['create-student']) ?>>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/create-student']) ?>">
                                 <i class="fa fa-user-plus"></i>
                                 <?= Yii::t('frontLayout', 'Add New Student') ?>
                             </a>
                           </li>
-                          <li>
-                            <a href="#">
+                          <li <?= $this->params['activeMenu'](['list-students']) ?>>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/list-students']) ?>">
                                 <i class="fa fa-users"></i>
                                 <?= Yii::t('frontLayout', 'List Students') ?>
                             </a>
@@ -92,7 +92,8 @@ AppAsset::register($this);
                   </li>
 
                   <li class="sub-menu">
-                      <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/edit-profile']) ?>">
+                      <a <?= $this->params['activeMenu'](['edit-profile']) ?>
+                      href="<?= Yii::$app->urlManager->createUrl(['teacher/default/edit-profile']) ?>">
                           <i class="fa fa-user"></i>
                           <span><?= Yii::t('frontLayout', 'My Profile') ?></span>
                       </a>

@@ -33,7 +33,7 @@ use \dmstr\bootstrap\Tabs;
                 <?php $this->beginBlock('main'); ?>
 
                 <p>
-                    
+
 			<?= $form->field($model, 'user_id')->textInput() ?>
 			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
@@ -47,7 +47,7 @@ use \dmstr\bootstrap\Tabs;
 			<?= $form->field($model, 'avatar')->textInput(['maxlength' => true]) ?>
                 </p>
                 <?php $this->endBlock(); ?>
-                
+
                 <?=
     Tabs::widget(
                  [

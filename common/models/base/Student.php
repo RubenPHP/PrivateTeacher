@@ -41,10 +41,12 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'lastname', 'email', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'required'],
+            [['user_id', 'name', 'lastname', 'email'], 'required'],
             [['user_id', 'is_active', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['hourly_rate'], 'number'],
-            [['name', 'lastname', 'email', 'avatar'], 'string', 'max' => 255]
+            [['name', 'lastname', 'email', 'avatar'], 'string', 'max' => 255],
+            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'email'],
         ];
     }
 

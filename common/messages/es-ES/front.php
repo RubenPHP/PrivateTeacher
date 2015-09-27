@@ -17,12 +17,12 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Created At' => '',
-    'Currency ID' => '',
-    'Hourly Rate' => '',
-    'ID' => '',
-    'Lastname' => '',
-    'Name' => '',
-    'Updated Ad' => '',
-    'User ID' => '',
+    'Add new Student' => '',
+    'Edit Profile' => '',
+    'Forgot Password?' => '',
+    'Index' => '',
+    'Student Information' => '',
+    'Student List' => '',
+    'Update Your Profile' => '',
+    'Update student: ' => '',
 ];

@@ -20,6 +20,7 @@ return [
     'Add New Student' => '',
     'Calendar' => '',
     'List Students' => '',
+    'Logout' => '',
     'Manage Students' => '',
     'My Profile' => '',
     'Payments' => '',
