@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'avatar') ?>
 
-		<?php // echo $form->field($model, 'hourly_rate') ?>
+		<?php // echo $form->field($model, 'lesson_cost') ?>
 
 		<?php // echo $form->field($model, 'is_active') ?>
 

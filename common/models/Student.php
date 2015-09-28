@@ -25,6 +25,14 @@ class Student extends BaseStudent
         ];
     }
 
+    public function getLessonCostFormatted(){
+        return $this->lessonCost . ' ' . $this->user->userProfile->currency;
+    }
+    public function getLessonCost(){
+        $lessonCost = isset($this->lesson_cost) ? $this->lesson_cost : $this->user->userProfile->lesson_cost;
+        return $lessonCost;
+    }
+
     public function getFullName(){
         return $this->name . ' ' . $this->lastname;
     }

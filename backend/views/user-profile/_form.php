@@ -40,7 +40,7 @@ use \dmstr\bootstrap\Tabs;
 			<?= $form->field($model, 'currency_id')->textInput() ?>
 			<?= $form->field($model, 'created_at')->textInput() ?>
 			<?= $form->field($model, 'updated_ad')->textInput() ?>
-			<?= $form->field($model, 'hourly_rate')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'lesson_cost')->textInput(['maxlength' => true]) ?>
                 </p>
                 <?php $this->endBlock(); ?>
                 

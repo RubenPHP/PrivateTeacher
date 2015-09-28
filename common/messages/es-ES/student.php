@@ -24,7 +24,7 @@ return [
     'Created By' => '',
     'Date' => '',
     'Email' => '',
-    'Hourly Rate' => '',
+    'Lesson Cost' => '',
     'ID' => '',
     'Is Active' => '',
     'Is Admin' => '',

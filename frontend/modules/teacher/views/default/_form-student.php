@@ -27,7 +27,7 @@ use yii\bootstrap\ActiveForm;
                     <?= $form->field($student, 'lastname')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($student, 'email')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($student, 'is_active')->checkBox() ?>
-                    <?= $form->field($student, 'hourly_rate',['horizontalCssClasses' => [
+                    <?= $form->field($student, 'lesson_cost',['horizontalCssClasses' => [
                                                         'wrapper' => 'col-sm-2',
                                                         ]
                                                 ])->textInput(['maxlength' => true]) ?>

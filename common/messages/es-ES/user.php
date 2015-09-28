@@ -19,7 +19,7 @@
 return [
     'Created At' => '',
     'Currency ID' => '',
-    'Hourly Rate' => '',
+    'Lesson Cost' => '',
     'ID' => '',
     'Lastname' => '',
     'Name' => '',

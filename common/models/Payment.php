@@ -24,9 +24,11 @@ class Payment extends BasePayment
         ];
     }
 
-    public function getAllStudentsAsMappedArray($condition = null){
+    public function getAllStudentsAsMappedArray($condition = null, $userId = null){
+        $userId = isset($userId) ? $userId : Yii::$app->user->id;
+
         $models = Student::find()
-                    ->where(['user_id'=>Yii::$app->user->id]);
+                    ->where(['user_id'=>$userId]);
 
         if (isset($condition)) {
             $models->andWhere($condition);

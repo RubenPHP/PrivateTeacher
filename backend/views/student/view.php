@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = 'View';
 			'lastname',
 			'email:email',
 			'avatar',
-			'hourly_rate:url',
+			'lesson_cost:url',
 			'is_active',
 			'created_by',
 			'updated_by',

@@ -38,8 +38,8 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'student_id', 'amount', 'date'], 'required'],
-            [['user_id', 'student_id', 'date', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'student_id', 'amount', 'date_time'], 'required'],
+            [['user_id', 'student_id', 'date_time', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount'], 'number']
         ];
     }
@@ -54,7 +54,7 @@ class Payment extends \yii\db\ActiveRecord
             'user_id' => Yii::t('model', 'User ID'),
             'student_id' => Yii::t('model', 'Student ID'),
             'amount' => Yii::t('model', 'Amount'),
-            'date' => Yii::t('model', 'Date'),
+            'date_time' => Yii::t('model', 'Date'),
             'created_by' => Yii::t('model', 'Created By'),
             'updated_by' => Yii::t('model', 'Updated By'),
             'created_at' => Yii::t('model', 'Created At'),

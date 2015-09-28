@@ -4,21 +4,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 
-
-  $events = array();
-  //Testing
-  $Event = new \yii2fullcalendar\models\Event();
-  $Event->id = 1;
-  $Event->title = 'Testing';
-  $Event->start = date('Y-m-d\TH:m:s\Z');
-  $events[] = $Event;
-
-  $Event = new \yii2fullcalendar\models\Event();
-  $Event->id = 2;
-  $Event->title = 'Testing';
-  $Event->start = date('Y-m-d\TH:m:s\Z',strtotime('tomorrow 6am'));
-  $events[] = $Event;
-
 ?>
 <section id="main-content">
     <section class="wrapper site-min-height">
@@ -43,7 +28,7 @@ use yii\grid\GridView;
                         'columns' => [
                             'student',
                             'amount',
-                            'date:datetime',
+                            'date_time:datetime',
                             [
                             'format' => 'raw',
                             'value' => function($payment){

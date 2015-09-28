@@ -10,4 +10,7 @@ use \common\models\base\Currency as BaseCurrency;
  */
 class Currency extends BaseCurrency
 {
+    public function __toString(){
+        return $this->symbol;
+    }
 }

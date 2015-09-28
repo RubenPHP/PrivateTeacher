@@ -43,7 +43,7 @@ use \dmstr\bootstrap\Tabs;
 			<?= $form->field($model, 'created_at')->textInput() ?>
 			<?= $form->field($model, 'updated_at')->textInput() ?>
 			<?= $form->field($model, 'is_active')->textInput() ?>
-			<?= $form->field($model, 'hourly_rate')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'lesson_cost')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'avatar')->textInput(['maxlength' => true]) ?>
                 </p>
                 <?php $this->endBlock(); ?>

@@ -18,6 +18,7 @@ use yii\grid\GridView;
                             'name',
                             'lastname',
                             'email',
+                            'lessonCostFormatted',
                             'created_at:datetime',
                             [
                             'attribute' => 'is_active',

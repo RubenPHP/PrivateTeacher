@@ -11,7 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property string $name
  * @property string $lastname
- * @property string $hourly_rate
+ * @property string $lesson_cost
  * @property integer $language_id
  * @property integer $currency_id
  * @property integer $created_at
@@ -40,7 +40,7 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             [['user_id', 'name', 'lastname', 'language_id', 'currency_id'], 'required'],
             [['user_id', 'language_id', 'currency_id', 'created_at', 'updated_at'], 'integer'],
-            [['hourly_rate'], 'number'],
+            [['lesson_cost'], 'number'],
             [['name', 'lastname'], 'string', 'max' => 255],
             [['user_id'], 'unique']
         ];
@@ -56,7 +56,7 @@ class UserProfile extends \yii\db\ActiveRecord
             'user_id' => Yii::t('model', 'User ID'),
             'name' => Yii::t('model', 'Name'),
             'lastname' => Yii::t('model', 'Lastname'),
-            'hourly_rate' => Yii::t('model', 'Hourly Rate'),
+            'lesson_cost' => Yii::t('model', 'Lesson Cost'),
             'language_id' => Yii::t('model', 'Language ID'),
             'currency_id' => Yii::t('model', 'Currency ID'),
             'created_at' => Yii::t('model', 'Created At'),

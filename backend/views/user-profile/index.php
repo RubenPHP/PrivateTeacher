@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'user_id',
 			'name',
 			'lastname',
-			'hourly_rate:url',
+			'lesson_cost:url',
 			'currency_id',
 			'created_at',
 			/*'updated_ad'*/

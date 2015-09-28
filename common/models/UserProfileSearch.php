@@ -20,7 +20,7 @@ public function rules()
 return [
 [['id', 'user_id', 'currency_id', 'created_at', 'updated_ad'], 'integer'],
             [['name', 'lastname'], 'safe'],
-            [['hourly_rate'], 'number'],
+            [['lesson_cost'], 'number'],
 ];
 }
 
@@ -59,7 +59,7 @@ return $dataProvider;
 $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'hourly_rate' => $this->hourly_rate,
+            'lesson_cost' => $this->lesson_cost,
             'currency_id' => $this->currency_id,
             'created_at' => $this->created_at,
             'updated_ad' => $this->updated_ad,

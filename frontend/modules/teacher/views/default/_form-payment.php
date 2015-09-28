@@ -29,7 +29,7 @@ use kartik\datetime\DateTimePicker;
                     <?= $form->field($payment, 'amount')->textInput(['maxlength' => true]) ?>
 
                     <?=
-                    $form->field($payment, 'date')->widget(DateControl::classname(), [
+                    $form->field($payment, 'date_time')->widget(DateControl::classname(), [
                         'type'=>DateControl::FORMAT_DATETIME
                      ]);
                     ?>

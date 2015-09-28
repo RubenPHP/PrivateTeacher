@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'lastname') ?>
 
-		<?= $form->field($model, 'hourly_rate') ?>
+		<?= $form->field($model, 'lesson_cost') ?>
 
 		<?php // echo $form->field($model, 'currency_id') ?>
 

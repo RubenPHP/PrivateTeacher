@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = 'View';
 			'user_id',
 			'name',
 			'lastname',
-			'hourly_rate:url',
+			'lesson_cost:url',
 			'currency_id',
 			'created_at',
 			'updated_ad',

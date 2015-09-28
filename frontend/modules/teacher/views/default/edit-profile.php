@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
                     <?= $form->field($teacherProfile, 'name') ?>
                     <?= $form->field($teacherProfile, 'lastname') ?>
-                    <?= $form->field($teacherProfile, 'hourly_rate') ?>
+                    <?= $form->field($teacherProfile, 'lesson_cost') ?>
                     <?= $form->field($teacherProfile, 'currency_id')->dropDownList($teacherProfile->allCurrenciesAsMappedArray) ?>
                     <?= $form->field($teacherProfile, 'language_id')->dropDownList($teacherProfile->allLanguagesAsMappedArray) ?>
                     <?= Html::submitButton('Save', ['class' => 'btn btn-theme', 'name' => 'edit-profile-button']) ?>

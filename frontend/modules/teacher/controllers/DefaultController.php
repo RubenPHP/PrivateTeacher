@@ -111,6 +111,8 @@ class DefaultController extends Controller
     }
 
     public function actionListPayments(){
+        $events = Yii::$app->user->identity->paymentsAsEvents;
+
         $dataProvider = new ActiveDataProvider([
             'query' => Yii::$app->user->identity->getPayments(),
             'pagination' => [
@@ -118,7 +120,6 @@ class DefaultController extends Controller
             ]
         ]);
 
-        return $this->render('list-payments', compact('dataProvider'));
+        return $this->render('list-payments', compact('dataProvider', 'events'));
     }
 }
-    

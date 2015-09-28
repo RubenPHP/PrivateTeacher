@@ -13,7 +13,7 @@ use Yii;
  * @property string $lastname
  * @property string $email
  * @property string $avatar
- * @property string $hourly_rate
+ * @property string $lesson_cost
  * @property integer $is_active
  * @property integer $created_by
  * @property integer $updated_by
@@ -43,7 +43,7 @@ class Student extends \yii\db\ActiveRecord
         return [
             [['user_id', 'name', 'lastname', 'email'], 'required'],
             [['user_id', 'is_active', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['hourly_rate'], 'number'],
+            [['lesson_cost'], 'number'],
             [['name', 'lastname', 'email', 'avatar'], 'string', 'max' => 255],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'email'],
@@ -62,7 +62,8 @@ class Student extends \yii\db\ActiveRecord
             'lastname' => Yii::t('student', 'Lastname'),
             'email' => Yii::t('student', 'Email'),
             'avatar' => Yii::t('student', 'Avatar'),
-            'hourly_rate' => Yii::t('student', 'Hourly Rate'),
+            'lesson_cost' => Yii::t('student', 'Lesson Cost'),
+            'lessonCostFormatted' => Yii::t('student', 'Lesson Cost'),
             'is_active' => Yii::t('student', 'Is Active'),
             'created_by' => Yii::t('student', 'Created By'),
             'updated_by' => Yii::t('student', 'Updated By'),
