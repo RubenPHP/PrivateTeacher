@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\datecontrol\DateControl;
-use kartik\datetime\DateTimePicker;
 
 ?>
 <section id="main-content">

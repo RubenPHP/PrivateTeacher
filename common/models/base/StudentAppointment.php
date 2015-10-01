@@ -9,7 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $student_id
- * @property integer $date_time
+ * @property integer $week_day
+ * @property integer $begin_time
+ * @property integer $end_time
  *
  * @property \common\models\Student $student
  */
@@ -29,8 +31,8 @@ class StudentAppointment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['student_id', 'date_time'], 'required'],
-            [['student_id', 'date_time'], 'integer']
+            [['student_id', 'week_day', 'begin_time', 'end_time'], 'required'],
+            [['student_id', 'week_day', 'begin_time', 'end_time'], 'integer']
         ];
     }
 
@@ -42,7 +44,9 @@ class StudentAppointment extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('model', 'ID'),
             'student_id' => Yii::t('model', 'Student ID'),
-            'date_time' => Yii::t('model', 'Date Time'),
+            'week_day' => Yii::t('model', 'Week Day'),
+            'begin_time' => Yii::t('model', 'Begin Time'),
+            'end_time' => Yii::t('model', 'End Time'),
         ];
     }
 

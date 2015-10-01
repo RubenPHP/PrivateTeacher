@@ -19,7 +19,7 @@ return [
             // format settings for displaying each date attribute (ICU format example)
             'displaySettings' => [
                 Module::FORMAT_DATE => 'dd-MM-yyyy',
-                Module::FORMAT_TIME => 'hh:mm:ss a',
+                Module::FORMAT_TIME => 'hh:mm a',
                 Module::FORMAT_DATETIME => 'dd-MM-yyyy hh:mm:ss a',
             ],
             // format settings for saving each date attribute (PHP format example)
@@ -34,6 +34,12 @@ return [
                     'options' => [],
                     'pluginOptions' => [
                         'autoclose' => true
+                    ]
+                ],
+                Module::FORMAT_TIME => [
+                    'pluginOptions' => [
+                        'showMeridian' => false,
+                        'minuteStep' => 5,
                     ]
                 ]
             ]

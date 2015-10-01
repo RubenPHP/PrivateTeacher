@@ -9,6 +9,7 @@ use yii\data\ActiveDataProvider;
 
 use common\models\UserProfile;
 use common\models\Student;
+use common\models\StudentAppointment;
 use common\models\Payment;
 
 class DefaultController extends Controller
@@ -55,25 +56,45 @@ class DefaultController extends Controller
 
     public function actionCreateStudent(){
         $student = new Student;
+        $studentAppointment = new StudentAppointment;
         $student->user_id = Yii::$app->user->id;
 
-        if($student->load(Yii::$app->request->post())&&$student->save()){
-            Yii::$app->session->setFlash('info', "$student created successfully");
-            return $this->redirect(['default/list-students']);
+        if($student->load(Yii::$app->request->post())&&$student->validate()){
+            $student->save();
+            $studentAppointment->student_id = $student->id;
+            if ($studentAppointment->load(Yii::$app->request->post())&&$studentAppointment->validate()) {
+                $studentAppointment->save();
+                Yii::$app->session->setFlash('info', "$student created successfully");
+                return $this->redirect(['default/list-students']);
+            }
         }
-        return $this->render('create-student', compact('student'));
+        return $this->render('create-student', compact('student', 'studentAppointment'));
     }
 
     public function actionUpdateStudent($studentId){
         $student = Student::findOne($studentId);
+        $studentAppointment = null;
+        if (empty($student->studentAppointments)) {
+            $studentAppointment = new StudentAppointment;
+            $studentAppointment->student_id = $studentId;
+        }
+        else{
+            $studentAppointment = $student->studentAppointments[0];
+        }
+
         if (!isset($student)) {
             throw new HttpException(404, 'The requested page does not exist.');
         }
-        if($student->load(Yii::$app->request->post())&&$student->save()){
+        if($student->load(Yii::$app->request->post())
+            &&$student->save()
+            &&$studentAppointment->load(Yii::$app->request->post())
+            &&$studentAppointment->save())
+        {
             Yii::$app->session->setFlash('info', "$student updated successfully");
             return $this->redirect(['default/list-students']);
         }
-        return $this->render('update-student', compact('student'));
+
+        return $this->render('update-student', compact('student', 'studentAppointment'));
     }
 
     public function actionListStudents(){

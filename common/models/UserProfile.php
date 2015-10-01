@@ -27,6 +27,10 @@ class UserProfile extends BaseUserProfile
         return $this->name .' '. $this->lastname;
     }
 
+    public function getLessonCostFormatted(){
+        return $this->lesson_cost . ' ' . $this->currency;
+    }
+
     public function getAllLanguagesAsMappedArray(){
         $models = Language::find()->all();
         return ArrayHelper::map($models, 'id', 'name');

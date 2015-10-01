@@ -8,4 +8,4 @@ $this->title = Yii::t('front', 'Add new Student');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?= $this->render('_form-student', compact('student')) ?>
+<?= $this->render('_form-student', compact('student', 'studentAppointment')) ?>

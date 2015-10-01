@@ -24,6 +24,7 @@ use Yii;
  * @property \common\models\User $user
  * @property \common\models\User $createdBy
  * @property \common\models\User $updatedBy
+ * @property \common\models\StudentAppointment[] $studentAppointments
  */
 class Student extends \yii\db\ActiveRecord
 {
@@ -102,5 +103,13 @@ class Student extends \yii\db\ActiveRecord
     public function getUpdatedBy()
     {
         return $this->hasOne(\common\models\User::className(), ['id' => 'updated_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStudentAppointments()
+    {
+        return $this->hasMany(\common\models\StudentAppointment::className(), ['student_id' => 'id']);
     }
 }

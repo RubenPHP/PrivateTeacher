@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\datecontrol\DateControl;
+use common\helpers\Tools;
 
 ?>
 <section id="main-content">
@@ -27,10 +29,17 @@ use yii\bootstrap\ActiveForm;
                     <?= $form->field($student, 'lastname')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($student, 'email')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($student, 'is_active')->checkBox() ?>
+                    <?= $form->field($studentAppointment, 'week_day')->dropDownList(Tools::getWeekDays()) ?>
+                    <?= $form->field($studentAppointment, 'begin_time')->widget(DateControl::classname(), [
+                        'type'=>DateControl::FORMAT_TIME
+                     ]); ?>
+                    <?= $form->field($studentAppointment, 'end_time')->widget(DateControl::classname(), [
+                        'type'=>DateControl::FORMAT_TIME
+                     ]); ?>
                     <?= $form->field($student, 'lesson_cost',['horizontalCssClasses' => [
                                                         'wrapper' => 'col-sm-2',
                                                         ]
-                                                ])->textInput(['maxlength' => true]) ?>
+                                                ])->textInput(['maxlength' => true, 'placeHolder' => $student->user->userProfile->lessonCostFormatted]) ?>
                     <?= $form->field($student, 'avatar')->textInput(['maxlength' => true]) ?>
 
                     <?= Html::submitButton('Save', ['class' => 'btn btn-theme', 'name' => 'update-student-button']) ?>
