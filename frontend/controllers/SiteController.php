@@ -18,6 +18,9 @@ use yii\filters\AccessControl;
  */
 class SiteController extends Controller
 {
+
+    public function init(){
+    }
     /**
      * @inheritdoc
      */
@@ -72,7 +75,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'index';
         return $this->render('index');
     }
 

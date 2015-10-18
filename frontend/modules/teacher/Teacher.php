@@ -16,5 +16,7 @@ class Teacher extends \yii\base\Module
         Yii::$app->view->params['activeMenu'] = function($actionIdList){
             return (in_array(Yii::$app->controller->action->id, $actionIdList))? 'class="active"' : '';
         };
+
+        $this->layout="main";
     }
 }
