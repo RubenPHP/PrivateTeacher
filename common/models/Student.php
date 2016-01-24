@@ -14,19 +14,6 @@ use \common\models\base\Student as BaseStudent;
  */
 class Student extends BaseStudent
 {
-
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if (!isset($this->lesson_cost)||empty($this->lesson_cost)) {
-                $this->lesson_cost = $this->user->userProfile->lesson_cost;
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function behaviors()
     {
         return [

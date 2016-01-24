@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\datecontrol\DateControl;
 use common\helpers\Tools;
+use kartik\file\FileInput;
 
 ?>
 <section id="main-content">
@@ -16,10 +17,11 @@ use common\helpers\Tools;
                     <?php $form = ActiveForm::begin([
                         'id' => 'update-student-form',
                         'layout' => 'horizontal',
+                        'options' => ['enctype'=>'multipart/form-data'],
                         'fieldConfig' => [
-                        'horizontalCssClasses' => [
-                        'label' => 'col-sm-2',
-                        'wrapper' => 'col-sm-6',
+                            'horizontalCssClasses' => [
+                            'label' => 'col-sm-2',
+                            'wrapper' => 'col-sm-6',
                         ]
                     ]
                     ]);
@@ -40,7 +42,25 @@ use common\helpers\Tools;
                                                         'wrapper' => 'col-sm-2',
                                                         ]
                                                 ])->textInput(['maxlength' => true, 'placeHolder' => $student->user->userProfile->lessonCostFormatted]) ?>
-                    <?= $form->field($student, 'avatar')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($student->avatarManager, 'uploadedImage',
+                        ['options'=>['class'=>'col-md-11 image-file-upload']])->widget(
+                        FileInput::classname(),[
+                        'options' => ['multiple' => false, 'accept' => 'image/*'],
+                        'pluginOptions' => [
+                            'defaultPreviewContent' => Html::img($student->avatarManager->getFullUrlImage()),
+                            'overwriteInitial' => true,
+                            'showCaption' => false,
+                            'showRemove' => true,
+                            'showUpload' => false,
+                            'showClose' => false,
+                            'browseLabel' => '',
+                            'removeLabel' => '',
+                            'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
+                            'layoutTemplates' => ['main2' => '{preview} {browse} {remove}'],
+                            'allowedFileExtensions' => ["jpg", "png", "gif"]
+                        ]
+                    ]);
+                    ?>
 
                     <?= Html::submitButton('Save', ['class' => 'btn btn-theme', 'name' => 'update-student-button']) ?>
                     <?php ActiveForm::end(); ?>

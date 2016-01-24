@@ -12,6 +12,7 @@ use common\models\Student;
 use common\models\StudentAppointment;
 use common\models\Payment;
 
+
 class DefaultController extends Controller
 {
 
@@ -85,12 +86,18 @@ class DefaultController extends Controller
         if (!isset($student)) {
             throw new HttpException(404, 'The requested page does not exist.');
         }
+
         if($student->load(Yii::$app->request->post())
             &&$student->save()
             &&$studentAppointment->load(Yii::$app->request->post())
             &&$studentAppointment->save())
         {
-            Yii::$app->session->setFlash('info', "$student updated successfully");
+            if($student->avatarManager->isImageSavedToDiskOk){
+                Yii::$app->session->setFlash('info', Yii::t('app', "{$student} updated successfully"));
+            }
+            else{
+                Yii::$app->session->setFlash('info', Yii::t('app', 'There was some error uploading your avatar Image'));
+            }
             return $this->redirect(['default/list-students']);
         }
 

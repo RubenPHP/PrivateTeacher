@@ -23,8 +23,6 @@ class User extends BaseUser
             $events[] = $event;
         }
 
-        //var_dump($events);die;
-
         return $events;
     }
 }

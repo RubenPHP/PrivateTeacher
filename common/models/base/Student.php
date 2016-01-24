@@ -3,7 +3,9 @@
 namespace common\models\base;
 
 use Yii;
+use yii\web\UploadedFile;
 
+use \common\models\helpers\AvatarManager;
 /**
  * This is the base-model class for table "student".
  *
@@ -28,6 +30,32 @@ use Yii;
  */
 class Student extends \yii\db\ActiveRecord
 {
+    //use AvatarManager;
+    public $avatarManager;
+
+    public function init()
+    {
+        parent::init();
+        $this->avatarManager = new AvatarManager($this);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        $this->avatarManager->uploadedImage = UploadedFile::getInstance($this->avatarManager, 'uploadedImage');
+        $this->avatarManager->saveAvatarToDisk();
+        if (isset($this->avatarManager->uploadedImage)&&!$this->avatarManager->isImageSavedToDiskOk) {
+            return false;
+        }
+        if (!isset($this->lesson_cost)||empty($this->lesson_cost)) {
+            $this->lesson_cost = $this->user->userProfile->lesson_cost;
+        }
+        return true;
+    }
+
+
     /**
      * @inheritdoc
      */

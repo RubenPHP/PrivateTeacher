@@ -22,7 +22,8 @@
         "kartik-v/yii2-widget-datetimepicker": "*",
         "philippfrenzel/yii2fullcalendar": "*",
         "kartik-v/yii2-datecontrol": "dev-master",
-        "kartik-v/yii2-widget-timepicker": "*"
+        "kartik-v/yii2-widget-timepicker": "*",
+        "kartik-v/yii2-widget-fileinput": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
