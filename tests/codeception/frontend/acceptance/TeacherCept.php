@@ -47,5 +47,5 @@ $I->see('Payment List', 'h3');
 $I->wantTo('have a Calendar on the Payments List section and see when a student has paid');
 $I->seeElement(PaymentsIndexPage::$paymentOnCalendarLocator);
 
-$I->wantTo('see the period a payment cover on the Calendar ');
+$I->wantTo("see payment's days coverage on the Calendar");
 $I->seeElement(PaymentsIndexPage::$dayCoveredByPaymentLocator);
