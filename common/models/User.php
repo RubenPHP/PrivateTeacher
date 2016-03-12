@@ -20,6 +20,7 @@ class User extends BaseUser
             $event->title = Yii::t('front', "({0}{1}) {2}'s Payment",
                                     [$payment->amount, $this->userProfile->currency, $payment->student]);
             $event->start = date('Y-m-d\TH:i:s\Z', $payment->date_time);
+            $event->className = ['payment-made-by-student'];
             $events[] = $event;
         }
 

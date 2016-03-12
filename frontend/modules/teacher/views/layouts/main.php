@@ -55,20 +55,20 @@ AppAsset::register($this);
                     (<?= Yii::$app->user->identity->username ?>)
                   </h5>
 
-                  <li class="mt sub-menu">
+                  <li class="mt sub-menu" id="students-menu">
                   <a <?= $this->params['activeMenu'](['create-student', 'update-student', 'list-students']) ?>
                        href="javascript:;" >
                           <i class="fa fa-graduation-cap"></i>
                           <span><?= Yii::t('frontLayout', 'Manage Students') ?></span>
                       </a>
                   <ul class="sub">
-                      <li <?= $this->params['activeMenu'](['list-students']) ?>>
+                      <li <?= $this->params['activeMenu'](['list-students']) ?> id="students-index">
                           <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/list-students']) ?>">
                               <i class="fa fa-users"></i>
                               <?= Yii::t('frontLayout', 'List Students') ?>
                           </a>
                       </li>
-                      <li <?= $this->params['activeMenu'](['create-student']) ?>>
+                      <li <?= $this->params['activeMenu'](['create-student']) ?> id="student-create">
                             <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/create-student']) ?>">
                                 <i class="fa fa-user-plus"></i>
                                 <?= Yii::t('frontLayout', 'Add New Student') ?>
@@ -77,20 +77,20 @@ AppAsset::register($this);
                       </ul>
                   </li>
 
-                  <li class="sub-menu">
+                  <li class="sub-menu" id="payments-menu">
                       <a <?= $this->params['activeMenu'](['create-payment', 'update-payment', 'list-payments']) ?>
                       href="#">
                           <i class="fa fa-credit-card"></i>
                           <span><?= Yii::t('frontLayout', 'Payments') ?></span>
                       </a>
                       <ul class="sub">
-                          <li <?= $this->params['activeMenu'](['create-payment']) ?>>
+                          <li <?= $this->params['activeMenu'](['create-payment']) ?> id="payment-create">
                             <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/create-payment']) ?>">
                                 <i class="fa fa-money"></i>
                                 <?= Yii::t('frontLayout', 'Add New Payment') ?>
                             </a>
                           </li>
-                          <li <?= $this->params['activeMenu'](['list-payments']) ?>>
+                          <li <?= $this->params['activeMenu'](['list-payments']) ?> id="payments-index">
                             <a href="<?= Yii::$app->urlManager->createUrl(['teacher/default/list-payments']) ?>">
                                 <i class="fa fa-list"></i>
                                 <?= Yii::t('frontLayout', 'List Payments') ?>
@@ -99,14 +99,14 @@ AppAsset::register($this);
                       </ul>
                   </li>
 
-                  <li class="sub-menu">
+                  <li class="sub-menu" id="calendar-lessons-view">
                       <a href="#">
                           <i class="fa fa-calendar-o"></i>
                           <span><?= Yii::t('frontLayout', 'Calendar') ?></span>
                       </a>
                   </li>
 
-                  <li class="sub-menu">
+                  <li class="sub-menu" id="my-profile-update">
                       <a <?= $this->params['activeMenu'](['edit-profile']) ?>
                       href="<?= Yii::$app->urlManager->createUrl(['teacher/default/edit-profile']) ?>">
                           <i class="fa fa-user"></i>
