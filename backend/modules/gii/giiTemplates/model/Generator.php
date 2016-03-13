@@ -26,10 +26,10 @@ class Generator extends \yii\gii\generators\model\Generator
     public $generateExtendedModelClass = false;
     public $generateNMRelatedFunction = false;
     private $_includesToGenerate = [];
-    private $_behavioursToGenerate = [];
-    private $_attributesToGenerate = [];
-    private $_initToGenerate = [];
-    private $_beforeSaveToGenerate = [];
+    private $_behaviorsToGenerate = [];
+    private $_propertiesToGenerate = [];
+    private $_initMethodElementsToGenerate = [];
+    private $_beforeSaveElementsToGenerate = [];
     private $_notInsertOnRequired = ['created_by', 'updated_by', 'created_at', 'updated_at'];
     /*TODO (ruben): autodetect sluggable field*/
     private $_allBehaviors = [
@@ -153,16 +153,6 @@ class Generator extends \yii\gii\generators\model\Generator
                 'labels' => $this->generateLabels($tableSchema),
                 'rules' => $this->generateRules($tableSchema),
                 'relations' => isset($relations[$tableName]) ? $relations[$tableName] : [],
-                'includes' => array_unique($this->_includesToGenerate),
-                'hasIncludes' => !empty($this->_includesToGenerate),
-                'attributes' => array_unique($this->_attributesToGenerate),
-                'hasAttributes' => !empty($this->_attributesToGenerate),
-                'behaviours' => array_unique($this->_behavioursToGenerate),
-                'hasBehaviours' => !empty($this->_behavioursToGenerate),
-                'initList' => array_unique($this->_initToGenerate),
-                'hasInit' => !empty($this->_initToGenerate),
-                'beforeSaveList' => array_unique($this->_beforeSaveToGenerate),
-                'hasBeforeSave' => !empty($this->_beforeSaveToGenerate),
                 'fieldsForMappedArray' => $this->generateFieldsForMappedArray($tableSchema),
             ];
             $files[] = new CodeFile(
@@ -182,10 +172,8 @@ class Generator extends \yii\gii\generators\model\Generator
 
             // query :
             if ($queryClassName) {
-                $params = [
-                    'className' => $queryClassName,
-                    'modelClassName' => $modelClassName,
-                ];
+                $params['className'] = $queryClassName;
+                $params['modelClassName'] = $modelClassName;
                 $files[] = new CodeFile(
                     Yii::getAlias('@' . str_replace('\\', '/', $this->queryNs)) . '/' . $queryClassName . '.php',
                     $this->render('query.php', $params)
@@ -224,17 +212,17 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         foreach ($tableSchema->columns as $column) {
             if (strcasecmp($column->name, 'created_by') == 0 || strcasecmp($column->name, 'updated_by') == 0) {
-                $this->_behavioursToGenerate = array_merge($this->_behavioursToGenerate,
+                $this->_behaviorsToGenerate = array_merge($this->_behaviorsToGenerate,
                     $this->_allBehaviors['blameable']['behaviours']);
                 $this->_includesToGenerate = array_merge($this->_includesToGenerate,
                     $this->_allBehaviors['blameable']['includes']);
             } elseif (strcasecmp($column->name, 'created_at') == 0 || strcasecmp($column->name, 'updated_at') == 0) {
-                $this->_behavioursToGenerate = array_merge($this->_behavioursToGenerate,
+                $this->_behaviorsToGenerate = array_merge($this->_behaviorsToGenerate,
                     $this->_allBehaviors['timestamp']['behaviours']);
                 $this->_includesToGenerate = array_merge($this->_includesToGenerate,
                     $this->_allBehaviors['timestamp']['includes']);
             } elseif (strcasecmp($column->name, 'slug') == 0) {
-                $this->_behavioursToGenerate = array_merge($this->_behavioursToGenerate,
+                $this->_behaviorsToGenerate = array_merge($this->_behaviorsToGenerate,
                     $this->_allBehaviors['sluggable']['behaviours']);
                 $this->_includesToGenerate = array_merge($this->_includesToGenerate,
                     $this->_allBehaviors['sluggable']['includes']);
@@ -256,17 +244,17 @@ class Generator extends \yii\gii\generators\model\Generator
             if (strpos($column->name, 'image') !== false) {
                 $this->_includesToGenerate = array_merge($this->_includesToGenerate,
                     $this->_allSpecialFields['image']['includes']);
-                $this->_attributesToGenerate = array_merge($this->_attributesToGenerate,
+                $this->_propertiesToGenerate = array_merge($this->_propertiesToGenerate,
                     $this->_allSpecialFields['image']['attributes']);
-                array_push($this->_initToGenerate, $this->_allSpecialFields['image']['init']);
-                array_push($this->_beforeSaveToGenerate, $this->_allSpecialFields['image']['beforeSave']);
+                array_push($this->_initMethodElementsToGenerate, $this->_allSpecialFields['image']['init']);
+                array_push($this->_beforeSaveElementsToGenerate, $this->_allSpecialFields['image']['beforeSave']);
             } elseif (strcasecmp($column->name, 'avatar') == 0) {
                 $this->_includesToGenerate = array_merge($this->_includesToGenerate,
                     $this->_allSpecialFields['avatar']['includes']);
-                $this->_attributesToGenerate = array_merge($this->_attributesToGenerate,
+                $this->_propertiesToGenerate = array_merge($this->_propertiesToGenerate,
                     $this->_allSpecialFields['avatar']['attributes']);
-                array_push($this->_initToGenerate, $this->_allSpecialFields['avatar']['init']);
-                array_push($this->_beforeSaveToGenerate, $this->_allSpecialFields['avatar']['beforeSave']);
+                array_push($this->_initMethodElementsToGenerate, $this->_allSpecialFields['avatar']['init']);
+                array_push($this->_beforeSaveElementsToGenerate, $this->_allSpecialFields['avatar']['beforeSave']);
             }
         }
     }
@@ -314,44 +302,22 @@ class Generator extends \yii\gii\generators\model\Generator
     public function generateRules($table)
     {
         $types = [];
-        $lengths = [];
+        $parentRules = parent::generateRules($table);
+        // delete not required fields from required string.
+        foreach ($parentRules as $i => $parentRule) {
+            if (strpos($parentRule, "'required']") !== false) {
+                foreach ($this->_notInsertOnRequired as $column) {
+                    $search1 = "'{$column}', ";
+                    $search2 = ", '{$column}'";
+                    $search3 = "'{$column}'";
+                    $parentRule = str_replace($search1, '', $parentRule);
+                    $parentRule = str_replace($search2, '', $parentRule);
+                    $parentRule = str_replace($search3, '', $parentRule);
+                    $parentRules[$i] = $parentRule;
+                }
+            }
+        }
         foreach ($table->columns as $column) {
-            if ($column->autoIncrement) {
-                continue;
-            }
-            if (!$column->allowNull && $column->defaultValue === null && !in_array($column->name,
-                    $this->_notInsertOnRequired)
-            ) {
-                $types['required'][] = $column->name;
-            }
-            switch ($column->type) {
-                case Schema::TYPE_SMALLINT:
-                case Schema::TYPE_INTEGER:
-                case Schema::TYPE_BIGINT:
-                    $types['integer'][] = $column->name;
-                    break;
-                case Schema::TYPE_BOOLEAN:
-                    $types['boolean'][] = $column->name;
-                    break;
-                case Schema::TYPE_FLOAT:
-                case 'double': // Schema::TYPE_DOUBLE, which is available since Yii 2.0.3
-                case Schema::TYPE_DECIMAL:
-                case Schema::TYPE_MONEY:
-                    $types['number'][] = $column->name;
-                    break;
-                case Schema::TYPE_DATE:
-                case Schema::TYPE_TIME:
-                case Schema::TYPE_DATETIME:
-                case Schema::TYPE_TIMESTAMP:
-                    $types['safe'][] = $column->name;
-                    break;
-                default: // strings
-                    if ($column->size > 0) {
-                        $lengths[$column->size][] = $column->name;
-                    } else {
-                        $types['string'][] = $column->name;
-                    }
-            }
             /*TODO: (ruben) enhance the url string detection with regex (only when 'url' is the only word, or have an _ before or after the word.*/
             if (strstr($column->name, 'url')) {
                 $types['url'][] = $column->name;
@@ -361,36 +327,56 @@ class Generator extends \yii\gii\generators\model\Generator
         foreach ($types as $type => $columns) {
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
-        foreach ($lengths as $length => $columns) {
-            $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
-        }
-
-        // Unique indexes rules
-        try {
-            $db = $this->getDbConnection();
-            $uniqueIndexes = $db->getSchema()->findUniqueIndexes($table);
-            foreach ($uniqueIndexes as $uniqueColumns) {
-                // Avoid validating auto incremental columns
-                if (!$this->isColumnAutoIncremental($table, $uniqueColumns)) {
-                    $attributesCount = count($uniqueColumns);
-
-                    if ($attributesCount == 1) {
-                        $rules[] = "[['" . $uniqueColumns[0] . "'], 'unique']";
-                    } elseif ($attributesCount > 1) {
-                        $labels = array_intersect_key($this->generateLabels($table), array_flip($uniqueColumns));
-                        $lastLabel = array_pop($labels);
-                        $columnsList = implode("', '", $uniqueColumns);
-                        $rules[] = "[['" . $columnsList . "'], 'unique', 'targetAttribute' => ['" . $columnsList . "'], 'message' => 'The combination of " . implode(', ',
-                                $labels) . " and " . $lastLabel . " has already been taken.']";
-                    }
-                }
-            }
-        } catch (NotSupportedException $e) {
-            // doesn't support unique indexes information...do nothing
-        }
-
-        return $rules;
+        $allRules = array_merge($parentRules, $rules);
+        return $allRules;
     }
 
+    public function hasIncludesToGenerate()
+    {
+        return !empty($this->_includesToGenerate);
+    }
 
+    public function getIncludesToGenerate()
+    {
+        return array_unique($this->_includesToGenerate);
+    }
+
+    public function hasPropertiesToGenerate()
+    {
+        return !empty($this->_propertiesToGenerate);
+    }
+
+    public function getPropertiesToGenerate()
+    {
+        return array_unique($this->_propertiesToGenerate);
+    }
+
+    public function getBehaviorsToGenerate()
+    {
+        return array_unique($this->_behaviorsToGenerate);
+    }
+
+    public function hasBehaviorsToGenerate(){
+        return !empty($this->_behaviorsToGenerate);
+    }
+
+    public function hasInitMethodToGenerate()
+    {
+        return !empty($this->_initMethodElementsToGenerate);
+    }
+
+    public function getInitMethodElementsToGenerate()
+    {
+        return array_unique($this->_initMethodElementsToGenerate);
+    }
+
+    public function hasBeforeSaveElementsToGenerate()
+    {
+        return !empty($this->_beforeSaveElementsToGenerate);
+    }
+
+    public function getBeforeSaveElementsToGenerate()
+    {
+        return array_unique($this->_beforeSaveElementsToGenerate);
+    }
 }

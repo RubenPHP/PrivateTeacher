@@ -39,9 +39,9 @@ AppAsset::register($this);
     if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->is_admin) {
         $menuItems = [
             ['label' => 'Users', 'url' => ['user/index']],
-            ['label' => 'User Profiles', 'url' => ['user-profile/index']],
-            ['label' => 'Students', 'url' => ['student/index']],
-            ['label' => 'Payment', 'url' => ['payment/index']],
+            ['label' => 'User Profiles', 'url' => ['/user-profile/default/index']],
+            ['label' => 'Students', 'url' => ['/student/default/index']],
+            ['label' => 'Payment', 'url' => ['/payment/default/index']],
             ['label' => 'Currency', 'url' => ['/currency/default/index']],
             ['label' => 'Language', 'url' => ['/language/default/index']],
         ];

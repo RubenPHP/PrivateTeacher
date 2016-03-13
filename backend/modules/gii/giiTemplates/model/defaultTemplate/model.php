@@ -4,7 +4,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $generator app\modules\gii\giiTemplates\model\Generator */
+/* @var $generator backend\modules\gii\giiTemplates\model\Generator */
 /* @var $tableName string full table name */
 /* @var $className string class name */
 /* @var $queryClassName string query class name */
@@ -21,8 +21,8 @@ namespace <?= $generator->ns ?>\base;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-<?php if ($hasIncludes): ?>
-    <?php foreach ($includes as $include): ?>
+<?php if ($generator->hasIncludesToGenerate()): ?>
+    <?php foreach ($generator->getIncludesToGenerate() as $include): ?>
         <?= $include . ";\n"  ?>
     <?php endforeach; ?>
 <?php endif; ?>
@@ -49,30 +49,30 @@ use yii\helpers\ArrayHelper;
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {
 
-<?php if ($hasAttributes): ?>
-    <?php foreach ($attributes as $attribute): ?>
-        <?= $attribute . ";\n"  ?>
+<?php if ($generator->hasPropertiesToGenerate()): ?>
+    <?php foreach ($generator->getPropertiesToGenerate() as $property): ?>
+        <?= $property . ";\n"  ?>
     <?php endforeach; ?>
 <?php endif; ?>
 
-<?php if ($hasInit): ?>
+<?php if ($generator->hasInitMethodToGenerate()): ?>
     public function init()
     {
         parent::init();
-    <?php foreach ($initList as $init): ?>
+    <?php foreach ($generator->getInitMethodElementsToGenerate() as $init): ?>
         <?= $init . "\n"  ?>
     <?php endforeach; ?>
     }
 <?php endif; ?>
 
 
-<?php if ($hasBeforeSave): ?>
+<?php if ($generator->hasBeforeSaveElementsToGenerate()): ?>
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
             return false;
         }
-    <?php foreach ($beforeSaveList as $beforeSave): ?>
+    <?php foreach ($generator->getBeforeSaveElementsToGenerate() as $beforeSave): ?>
         <?= $beforeSave . "\n"  ?>
     <?php endforeach; ?>
 
@@ -97,14 +97,14 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     }
 <?php endif; ?>
 
-<?php if ($hasBehaviours): ?>
+<?php if ($generator->hasBehaviorsToGenerate()): ?>
     /**
     * @inheritdoc
     */
     public function behaviors()
     {
     return [
-    <?php foreach ($behaviours as $behaviourName => $behaviourCode): ?>
+    <?php foreach ($generator->getBehaviorsToGenerate() as $behaviourName => $behaviourCode): ?>
         <?= $behaviourCode . ",\n"  ?>
     <?php endforeach; ?>
     ];

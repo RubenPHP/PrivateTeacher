@@ -14,16 +14,6 @@ use \common\models\base\Student as BaseStudent;
  */
 class Student extends BaseStudent
 {
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-            ],
-            ['class' => BlameableBehavior::className(),],
-        ];
-    }
-
     public function getLessonCostFormatted(){
         return $this->lesson_cost . ' ' . $this->user->userProfile->currency;
     }
