@@ -5,13 +5,13 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\modules\gii\giiTemplates\model;
+namespace backend\modules\gii\giiTemplates\model;
 
 use Yii;
 use yii\db\Schema;
 use yii\gii\CodeFile;
 use yii\base\NotSupportedException;
-use app\modules\gii\GeneratorTrait;
+use backend\modules\gii\GeneratorTrait;
 
 /**
  * This generator will generate one or multiple ActiveRecord classes for the specified database table.
@@ -46,7 +46,7 @@ class Generator extends \yii\gii\generators\model\Generator
             'behaviours' => ["'sluggable' => ['class' => SluggableBehavior::className(),'attribute' => 'anchor',]"],
         ],
     ];
-    /*TODO (ruben): Create the file \common\models\helpers\ImageManager*/
+    /*TODO (ruben): Create automatically the file \common\models\helpers\ImageManager*/
     private $_allSpecialFields = [
         'image' => [
             'includes' => [
@@ -64,12 +64,12 @@ class Generator extends \yii\gii\generators\model\Generator
         'avatar' => [
             'includes' => [
                 'use yii\web\UploadedFile',
-                'use common\models\helpers\AvatarManager'
+                'use common\models\collaborators\ImageManager'
             ],
             'attributes' => ['public $avatarManager'],
-            'init' => '$this->avatarManager = new AvatarManager($this);',
+            'init' => '$this->avatarManager = new ImageManager($this, $imageDirectory = \'avatars/\', $imageFieldName = \'avatar\', $defaultImage = \'default_avatar.jpg\');',
             'beforeSave' => '$this->avatarManager->uploadedImage = UploadedFile::getInstance($this->avatarManager, \'uploadedImage\');
-                            $this->avatarManager->saveAvatarToDisk();
+                            $this->avatarManager->saveImageToDisk();
                             if (isset($this->avatarManager->uploadedImage)&&!$this->avatarManager->isImageSavedToDiskOk) {
                                 return false;
                             }',

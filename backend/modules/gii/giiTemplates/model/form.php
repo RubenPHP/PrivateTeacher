@@ -1,6 +1,6 @@
 <?php
 
-use app\modules\gii\giiTemplates\model\Generator;
+use backend\modules\gii\giiTemplates\model\Generator;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */

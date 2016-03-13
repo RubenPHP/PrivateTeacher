@@ -166,20 +166,20 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     {
         return ArrayHelper::getColumn($this->{$relation}, $column);
     }
-    <?php foreach ($generator->getAllJunctionRelations() as $multipleRelation): ?>
+    <?php foreach ($generator->getAllJunctionRelations() as $junctionRelation): ?>
     <?php
         $class = $generator->modelClass;
         $modelVariable = $generator->variablize($class);
-        $relationName = $multipleRelation['name'];
-        $relationNameUppercase = $multipleRelation['nameUppercase'];
-        $pkRelatedTable = $multipleRelation['pkRelatedTable'];
-        $nameRelatedTable = $multipleRelation['nameRelatedTable'];
-        $nameRelatedTablePlural = $multipleRelation['nameRelatedTablePlural'];
-        $relatedTablePluralLowercase = $multipleRelation['nameRelatedTablePluralLowercase'];
+        $relationName = $junctionRelation['name'];
+        $relationNameUppercase = $junctionRelation['nameUppercase'];
+        $pkRelatedTable = $junctionRelation['pkRelatedTable'];
+        $nameRelatedTable = $junctionRelation['nameRelatedTable'];
+        $nameRelatedTablePlural = $junctionRelation['nameRelatedTablePlural'];
+        $relatedTablePluralLowercase = $junctionRelation['nameRelatedTablePluralLowercase'];
         $foreignKeyOnNMtable = $generator->generateTableName($tableName).'_id';
-        $classNMName = $multipleRelation['classNMName'];
+        $classNMName = $junctionRelation['classNMName'];
         $variableNMTable = $generator->variablize($classNMName);
-        $variableRelatedTable = $multipleRelation['variableRelatedTable'];
+        $variableRelatedTable = $junctionRelation['variableRelatedTable'];
     ?>
 
 

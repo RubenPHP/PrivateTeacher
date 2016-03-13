@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => require(__DIR__ . '/modules.php'),
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',

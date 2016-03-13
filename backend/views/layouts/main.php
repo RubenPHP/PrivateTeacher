@@ -42,8 +42,8 @@ AppAsset::register($this);
             ['label' => 'User Profiles', 'url' => ['user-profile/index']],
             ['label' => 'Students', 'url' => ['student/index']],
             ['label' => 'Payment', 'url' => ['payment/index']],
-            ['label' => 'Currency', 'url' => ['currency/index']],
-            ['label' => 'Language', 'url' => ['language/index']],
+            ['label' => 'Currency', 'url' => ['/currency/default/index']],
+            ['label' => 'Language', 'url' => ['/language/default/index']],
         ];
     }
     if (Yii::$app->user->isGuest) {

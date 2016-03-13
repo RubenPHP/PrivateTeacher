@@ -4,7 +4,7 @@ use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
-/* @var $generator app\modules\gii\giiTemplates\crud\Generator */
+/* @var $generator backend\modules\gii\giiTemplates\crud\Generator */
 
 /* @var $model \yii\db\ActiveRecord */
 $model = new $generator->modelClass;
@@ -36,8 +36,7 @@ use Zelenin\yii\widgets\Summernote\Summernote;
 use \kartik\select2\Select2;
 <?php endif; ?>
 
-<?php /*TODO ruben: create hasImageField()*/ ?>
-<?php if (true): ?>
+<?php if ($generator->hasImageFields()): ?>
 use kartik\file\FileInput;
 <?php endif; ?>
 
@@ -48,8 +47,7 @@ use kartik\file\FileInput;
 
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
 
-    <?php /*TODO ruben: create hasFilesToUpload()*/ ?>
-    <?php if (true): ?>
+    <?php if ($generator->hasFileFields()): ?>
         <?= "<?php " ?>$form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]); ?>
     <?php else: ?>
         <?= "<?php " ?>$form = ActiveForm::begin(); ?>
@@ -63,7 +61,7 @@ use kartik\file\FileInput;
     } ?>
 
     <?php if ($generator->useSelect2ForHasManyRelations): ?>
-        <?php foreach ($generator->getAllMultipleRelations() as $multipleRelation): ?>
+        <?php foreach ($generator->getAllJunctionRelations() as $multipleRelation): ?>
             <?php
             $class = $generator->modelClass;
             $modelVariable = $generator->variablize($class);

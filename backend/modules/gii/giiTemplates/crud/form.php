@@ -3,6 +3,7 @@
 /* @var $form yii\widgets\ActiveForm */
 /* @var $generator app\giiTemplates\crud\Generator */
 
+echo $form->field($generator, 'db');
 echo $form->field($generator, 'modelClass');
 echo $form->field($generator, 'searchModelClass');
 echo $form->field($generator, 'controllerClass');

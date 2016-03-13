@@ -112,7 +112,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         if ($<?= $modelVariable ?>->load($post) && $<?= $modelVariable ?>->save()) {
             <?php if ($generator->useSelect2ForHasManyRelations): ?>
 
-                <?php foreach ($generator->getAllMultipleRelations() as $multipleRelation): ?>
+                <?php foreach ($generator->getAllJunctionRelations() as $multipleRelation): ?>
                     <?php
                     $relationName = $multipleRelation['name'];
                     $relationNameUppercase = $multipleRelation['nameUppercase'];
@@ -142,7 +142,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         if ($<?= $modelVariable ?>->load($post) && $<?= $modelVariable ?>->save()) {
             <?php if ($generator->useSelect2ForHasManyRelations): ?>
 
-                <?php foreach ($generator->getAllMultipleRelations() as $multipleRelation): ?>
+                <?php foreach ($generator->getAllJunctionRelations() as $multipleRelation): ?>
                     <?php
                     $relationName = $multipleRelation['name'];
                     $relationNameUppercase = $multipleRelation['nameUppercase'];

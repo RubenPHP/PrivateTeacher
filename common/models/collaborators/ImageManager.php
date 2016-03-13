@@ -1,28 +1,31 @@
 <?php
 
-namespace common\models\helpers;
+namespace common\models\collaborators;
 
 use Yii;
 
 class ImageManager extends \yii\db\ActiveRecord {
     protected $model;
-    protected $imageDirectory = 'images/';
+    protected $imageDirectory;
     protected $imageFullDirectory;
     protected $imageURL;
-    protected $defaultImage = 'default_image.jpg';
-    protected $imageFieldName = 'image';
+    protected $defaultImage;
+    protected $imageFieldName;
     public $isImageSavedToDiskOk = false;
     public $uploadedImage;
 
-    public function __construct($model, $imageDirectory, $imageFieldName, $defaultImage){
+    public function __construct($model, $imageDirectory = 'images/', $imageFieldName = 'image', $defaultImage = 'default_image.jpg'){
+        $uploadDirectory = isset(Yii::$app->params['uploadDirectory']['frontend']) ? Yii::$app->params['uploadDirectory']['frontend'] : '';
+        $urlFrontend = isset(Yii::$app->params['URL']['frontend']) ? Yii::$app->params['URL']['frontend'] : '';
+        $uploadDirectoryForURL = isset(Yii::$app->params['uploadDirectoryForURL']) ? Yii::$app->params['uploadDirectoryForURL'] : '';
         $this->model = $model;
         $this->imageDirectory = $imageDirectory;
         $this->imageFieldName = $imageFieldName;
         $this->defaultImage = $defaultImage;
-        $this->imageFullDirectory = Yii::$app->params['uploadDirectory']['frontend'] . $this->imageDirectory;
+        $this->imageFullDirectory = $uploadDirectory . $this->imageDirectory;
         $this->imageURL = sprintf('%s%s%s',
-            Yii::$app->params['URL']['frontend'],
-            Yii::$app->params['uploadDirectoryForURL'],
+            $urlFrontend,
+            $uploadDirectoryForURL,
             $this->imageDirectory);
     }
 

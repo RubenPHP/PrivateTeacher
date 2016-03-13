@@ -5,20 +5,21 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\modules\gii\giiTemplates\crud;
+namespace backend\modules\gii\giiTemplates\crud;
 
 use Yii;
 use yii\base\ErrorException;
 use yii\base\UnknownMethodException;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
+use yii\db\Connection;
 use yii\db\Schema;
 use yii\gii\CodeFile;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
-use app\modules\gii\GeneratorTrait;
+use backend\modules\gii\GeneratorTrait;
 
 /**
  * Generates CRUD
@@ -37,10 +38,14 @@ class Generator extends \yii\gii\generators\crud\Generator
 {
     use GeneratorTrait;
 
+    public $db = 'db';
     public $enableRBACAdminAccess = false;
     public $generateView = false;
     public $useSummernoteOnTextFields = true;
     public $useSelect2ForHasManyRelations = true;
+
+    private $hasImageFields = false;
+    private $hasFileFields = false;
 
     /**
      * @inheritdoc
@@ -66,6 +71,11 @@ class Generator extends \yii\gii\generators\crud\Generator
     {
         return array_merge(parent::rules(), [
 
+            [['db'], 'filter', 'filter' => 'trim'],
+            [['db'], 'required'],
+            [['db'], 'match', 'pattern' => '/^\w+$/', 'message' => 'Only word characters are allowed.'],
+            [['db'], 'validateDb'],
+
             [['enableRBACAdminAccess'], 'boolean'],
             [['generateView'], 'boolean'],
             [['useSummernoteOnTextFields'], 'boolean'],
@@ -79,6 +89,7 @@ class Generator extends \yii\gii\generators\crud\Generator
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
+            'db' => 'Database Connection ID',
             'generateView' => 'Generate code related with model\'s View',
             'useSummernoteOnTextFields' => 'Use Summernote text editor on "TEXT" fields',
             'useSelect2ForHasManyRelations' => 'Use Select2 on form to select multiples items from a Many Relation'
@@ -91,6 +102,7 @@ class Generator extends \yii\gii\generators\crud\Generator
     public function hints()
     {
         return array_merge(parent::hints(), [
+            'db' => 'This is the ID of the DB application component.',
             'enableRBACAdminAccess' => 'This enable the Access Control to action\'s controller (index, create, update, delete).<br/ >
                 Only Admin role could access to that actions if this option is enabled.<br/ >
                 Enable it if you are using RBAC on your project, and you have created an admin role.',
@@ -103,10 +115,31 @@ class Generator extends \yii\gii\generators\crud\Generator
     }
 
     /**
+     * @return Connection the DB connection as specified by [[db]].
+     */
+    protected function getDbConnection()
+    {
+        return Yii::$app->get($this->db, false);
+    }
+
+    /**
+     * Validates the [[db]] attribute.
+     */
+    public function validateDb()
+    {
+        if (!Yii::$app->has($this->db)) {
+            $this->addError('db', 'There is no application component named "db".');
+        } elseif (!Yii::$app->get($this->db) instanceof Connection) {
+            $this->addError('db', 'The "db" application component must be a DB connection instance.');
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function generate()
     {
+        $this->initializeAttributes();
         $controllerFile = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->controllerClass, '\\')) . '.php');
 
         $files = [
@@ -132,6 +165,27 @@ class Generator extends \yii\gii\generators\crud\Generator
         return $files;
     }
 
+    private function initializeAttributes()
+    {
+        foreach ($this->getColumnNames() as $columnName) {
+            if ($columnName == 'image' || $columnName == 'avatar') {
+                $this->hasImageFields = true;
+                $this->hasFileFields = true;
+                break;
+            }
+        }
+    }
+
+    public function hasImageFields()
+    {
+        return $this->hasImageFields;
+    }
+
+    public function hasFileFields()
+    {
+        return $this->hasFileFields;
+    }
+
     /**
      * Generates code for active field
      * @param string $attribute
@@ -153,14 +207,15 @@ class Generator extends \yii\gii\generators\crud\Generator
         }
         $column = $tableSchema->columns[$attribute];
 
-        if (strpos($column->name, 'image') !== false) {
+        if ((strpos($column->name, 'image') !== false) || (strpos($column->name, 'avatar') !== false)) {
+            $managerName = strpos($column->name, 'image') !== false ? 'imageManager' : 'avatarManager';
             return "
-                \$form->field(\${$modelVariable}->imageManager, 'uploadedImage',
+                \$form->field(\${$modelVariable}->{$managerName}, 'uploadedImage',
                     ['options'=>['class'=>'form-group image-file-upload']])->widget(
                     FileInput::classname(),[
                     'options' => ['multiple' => false, 'accept' => 'image/*'],
                     'pluginOptions' => [
-                        'defaultPreviewContent' => Html::img(\${$modelVariable}->imageManager->getFullUrlImage()),
+                        'defaultPreviewContent' => Html::img(\${$modelVariable}->{$managerName}->getFullUrlImage()),
                         'overwriteInitial' => true,
                         'showCaption' => false,
                         'showRemove' => true,
@@ -216,7 +271,8 @@ class Generator extends \yii\gii\generators\crud\Generator
         }
     }
 
-    public function generateUrlParams(){
+    public function generateUrlParams()
+    {
         $urlParams = parent::generateUrlParams();
         $class = $this->modelClass;
         $modelVariable = $this->variablize($class);
